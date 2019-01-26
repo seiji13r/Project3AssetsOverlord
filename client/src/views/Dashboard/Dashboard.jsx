@@ -18,6 +18,7 @@ import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
 // core components
+import SanityCheck from "components/SanityCheck";
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import Table from "components/Table/Table.jsx";
@@ -55,6 +56,7 @@ class Dashboard extends React.Component {
     const { classes } = this.props;
     return (
       <div>
+        <SanityCheck />
         <GridContainer>
           <GridItem xs={12} sm={6} md={3}>
             <Card>
