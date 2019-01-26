@@ -1,8 +1,9 @@
 {
-  "name": "material-dashboard-react",
-  "version": "1.5.0",
-  "description": "Material Dashboard React. Coded by Creative Tim",
+  "name": "assets-overlord-client",
+  "version": "0.1.0",
+  "description": "Client side for Assets Overlord. Based on Material Dashboard React Coded by Creative Tim",
   "private": false,
+  "proxy": "http://localhost:3001/",
   "main": "dist/index.js",
   "dependencies": {
     "@material-ui/core": "3.1.0",
@@ -32,17 +33,9 @@
     "lint:fix": "eslint . --ext=js,jsx --fix;  exit 0",
     "build-package": "babel src --out-dir dist"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/creativetimofficial/material-dashboard-react.git"
-  },
   "keywords": [],
-  "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
+  "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
-  },
-  "homepage": "https://creativetimofficial.github.io/material-dashboard-react/#/dashboard",
   "optionalDependencies": {
     "babel-eslint": "7.2.3",
     "eslint": "4.19.1",
