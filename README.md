@@ -24,3 +24,11 @@ git pull
 ```
 git checkout [remote_branch]
 ```
+
+## Heroku
+
+* Deploy Master
+  `git push heroku master`
+
+* Deploy a Branch
+  `git push heroku testbranch:master`
