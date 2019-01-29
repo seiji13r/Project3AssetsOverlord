@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import PropTypes from "prop-types";
-import { Switch, Route, Redirect, Link } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -20,14 +20,11 @@ import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 
 // Auth Components
-import { BrowserRouter } from "react-router-dom"; //don't need to specify localhost url in axios http address
 import Signup from "../../components_auth/SignUp";
 import LoginForm from "../../components_auth/Login";
 import Navbar from "../../components_auth/Navbar";
 import Home from "../../components_auth/Home";
-import NoMatch from "../../components_auth/NoMatch";
 import axios from "axios";
-import Button from "@material-ui/core/Button";
 
 const switchRoutes = (
   <Switch>
@@ -53,7 +50,6 @@ class App extends React.Component {
     // Auth Methods
     this.getUser = this.getUser.bind(this);
     this.updateUser = this.updateUser.bind(this);
-    // this.logout = this.logout.bind(this);
   }
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
@@ -67,9 +63,6 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
-    // Auth Method - Get User
-    this.getUser();
-    this.setState({ redirectTo: null });
     if (navigator.platform.indexOf("Win") > -1) {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
@@ -117,15 +110,13 @@ class App extends React.Component {
       return <Redirect to={this.state.redirectTo} />
     }
   }
-
   render() {
     const { classes, ...rest } = this.props;
     return (
       <div className={classes.wrapper}>
         {/* Block Included Auth */}
-        {this.renderRedirect()}
+        {/* {this.renderRedirect()} */}
         {!this.state.loggedIn ? (
-          // <BrowserRouter>
             <div className="App">
               <div className={classes.mainPanel} ref="mainPanel"></div>
               <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
@@ -142,7 +133,6 @@ class App extends React.Component {
                 {/* <Route component={NoMatch} /> */}
               </Switch>
             </div>
-          // </BrowserRouter>
         ) : (
           <div>
             <Sidebar
@@ -156,14 +146,6 @@ class App extends React.Component {
               {...rest}
             />
             <div className={classes.mainPanel} ref="mainPanel">
-              {/* <section className="navbar-section">
-                <Link
-                  to="/"
-                  onClick={this.logout}
-                >
-                  <Button color="inherit">Logout</Button>
-                </Link>
-              </section> */}
               <Header
                 updateUser={this.updateUser}
                 routes={dashboardRoutes}
