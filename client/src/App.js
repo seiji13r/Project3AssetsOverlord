@@ -12,43 +12,53 @@ import Signup from "./components_auth/SignUp";
 import LoginForm from "./components_auth/Login";
 import Navbar from "./components_auth/Navbar";
 import Home from "./components_auth/Home";
+import NoMatch from "./components_auth/NoMatch";
+import axios from "axios";
 
 const hist = createBrowserHistory();
 
 class App extends Component {
-  state = {
-    loggedIn: false,
-    user: null
-  };
+  constructor() {
+    super();
+    this.state = {
+      loggedIn: false,
+      username: null,
+      email: null
+    };
 
-  // componentDidMount() {
-  //   this.getUser();
-  // }
+    this.getUser = this.getUser.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.updateUser = this.updateUser.bind(this);
+  }
 
-  // updateUser (userObject) {
-  //   this.setState(userObject)
-  // }
+  componentDidMount() {
+    this.getUser();
+  }
 
-  // getUser() {
-  //   axios.get('/auth/').then(response => {
-  //     console.log('Get user response: ')
-  //     console.log(response.data)
-  //     if (response.data.user) {
-  //       console.log('Get User: There is a user saved in the server session: ')
+  updateUser(userObject) {
+    this.setState(userObject);
+  }
 
-  //       this.setState({
-  //         loggedIn: true,
-  //         username: response.data.user.username
-  //       })
-  //     } else {
-  //       console.log('Get user: no user');
-  //       this.setState({
-  //         loggedIn: false,
-  //         username: null
-  //       })
-  //     }
-  //   })
-  // }
+  getUser() {
+    axios.get("/auth/").then(response => {
+      console.log("Get user response: ");
+      console.log(response.data)
+      if (response.data.user) {
+        console.log('Get User: There is a user saved in the server session: ')
+
+        this.setState({
+          loggedIn: true,
+          username: response.data.user.username
+        })
+      } else {
+        console.log('Get user: no user');
+        this.setState({
+          loggedIn: false,
+          username: null
+        })
+      }
+    })``
+  }
 
   displayDashboard = loggedIn => {
     if (!loggedIn) {
@@ -59,12 +69,15 @@ class App extends Component {
             {/* greet user if logged in: */}
             {this.state.loggedIn && <p>Join the party, {this.state.username}!</p>}
             {/* Routes to different components */}
-            <Route exact path="/" component={Home} />
-            <Route
-              path="/login"
-              render={() => <LoginForm updateUser={this.updateUser} />}
-            />
-            <Route path="/signup" render={() => <Signup />} />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route
+                path="/login"
+                render={() => <LoginForm updateUser={this.updateUser} />}
+              />
+              <Route path="/signup" render={() => <Signup />} />
+              <Route component={NoMatch} />
+            </Switch>
           </div>
         </BrowserRouter>
       );
@@ -80,7 +93,7 @@ class App extends Component {
           </Switch>
         </Router>
       );
-    };
+    }
   };
 
   render() {

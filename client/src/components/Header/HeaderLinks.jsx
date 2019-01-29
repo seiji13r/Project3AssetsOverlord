@@ -17,6 +17,8 @@ import Search from "@material-ui/icons/Search";
 // core components
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 import headerLinksStyle from "assets/jss/material-dashboard-react/components/headerLinksStyle.jsx";
 
@@ -36,11 +38,35 @@ class HeaderLinks extends React.Component {
     this.setState({ open: false });
   };
 
+  logout = event => {
+    event.preventDefault();
+    // eslint-disable-next-line no-console
+    console.log("logging out");
+    axios
+      .post("/auth/logout")
+      .then(response => {
+        // eslint-disable-next-line no-console
+        console.log(response.data);
+        if (response.status === 200) {
+          this.props.updateUser({
+            loggedIn: false,
+            username: null,
+            redirectTo: null
+          });
+        }
+      })
+      .catch(error => {
+        // eslint-disable-next-line no-console
+        console.log("Logout error", error);
+      });
+  }
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
     return (
       <div>
+        {/* 
         <div className={classes.searchWrapper}>
           <CustomInput
             formControlProps={{
@@ -57,6 +83,7 @@ class HeaderLinks extends React.Component {
             <Search />
           </Button>
         </div>
+        */}
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
@@ -162,6 +189,13 @@ class HeaderLinks extends React.Component {
             <p className={classes.linkText}>Profile</p>
           </Hidden>
         </Button>
+        <Link
+          to="/"
+          onClick={this.logout}
+        >
+          Logout
+          {/* <Button color="inherit">Logout</Button> */}
+        </Link>
       </div>
     );
   }

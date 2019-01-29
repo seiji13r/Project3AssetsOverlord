@@ -15,6 +15,7 @@ class Home extends Component {
         <img
           style={imageStyle}
           src="https://www.aures.com/var/aures/storage/images/news-hardware-pos-retail/is-rfid-technology-the-future-of-pos/35736-1-eng-GB/Is-RFID-Technology-the-Future-of-POS_s1.png"
+          alt="Welcome RFID"
         />
       </div>
     );
