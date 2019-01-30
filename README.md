@@ -48,3 +48,12 @@ git checkout [remote_branch]
 
 * Deploy a Branch
   `git push heroku testbranch:master`
+
+* Clear Cache Data
+
+```console
+heroku plugins:install heroku-repo
+heroku repo:purge_cache -a project3-assets-overlord
+git commit --allow-empty -m "Purge cache"
+git push heroku master
+```
