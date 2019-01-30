@@ -40,7 +40,7 @@ function Header({ ...props }) {
           </Button>
         </div>
         <Hidden smDown implementation="css">
-        <HeaderLinks updateUser={props.updateUser} />
+          <HeaderLinks />
         </Hidden>
         <Hidden mdUp implementation="css">
           <IconButton

@@ -19,13 +19,6 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 
-// Auth Components
-import Signup from "../../components_auth/SignUp";
-import LoginForm from "../../components_auth/Login";
-import Navbar from "../../components_auth/Navbar";
-import Home from "../../components_auth/Home";
-import axios from "axios";
-
 const switchRoutes = (
   <Switch>
     {dashboardRoutes.map((prop, key) => {
@@ -40,16 +33,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mobileOpen: false,
-      // Auth State
-      loggedIn: false,
-      username: null,
-      email: null
+      mobileOpen: false
     };
     this.resizeFunction = this.resizeFunction.bind(this);
-    // Auth Methods
-    this.getUser = this.getUser.bind(this);
-    this.updateUser = this.updateUser.bind(this);
   }
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
@@ -79,91 +65,36 @@ class App extends React.Component {
   componentWillUnmount() {
     window.removeEventListener("resize", this.resizeFunction);
   }
-  // Auth Methods
-  updateUser(userObject) {
-    this.setState(userObject);
-  }
-
-  getUser() {
-    axios.get("/auth/").then(response => {
-      console.log("Get user response: ");
-      console.log(response.data)
-      if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ')
-
-        this.setState({
-          loggedIn: true,
-          username: response.data.user.username
-        })
-      } else {
-        console.log('Get user: no user');
-        this.setState({
-          loggedIn: false,
-          username: null
-        })
-      }
-    });
-  }
-
-  renderRedirect = () => {
-    if (this.state.redirectTo) {
-      return <Redirect to={this.state.redirectTo} />
-    }
-  }
   render() {
     const { classes, ...rest } = this.props;
     return (
       <div className={classes.wrapper}>
-        {/* Block Included Auth */}
-        {/* {this.renderRedirect()} */}
-        {!this.state.loggedIn ? (
-            <div className="App">
-              <div className={classes.mainPanel} ref="mainPanel"></div>
-              <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
-              {/* greet user if logged in: */}
-              {this.state.loggedIn && <p>Join the party, {this.state.username}!</p>}
-              {/* Routes to different components */}
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route
-                  path="/login"
-                  render={() => <LoginForm updateUser={this.updateUser} />}
-                />
-                <Route path="/signup" render={() => <Signup />} />
-                {/* <Route component={NoMatch} /> */}
-              </Switch>
+        <Sidebar
+          routes={dashboardRoutes}
+          logoText={"Creative Tim"}
+          logo={logo}
+          image={image}
+          handleDrawerToggle={this.handleDrawerToggle}
+          open={this.state.mobileOpen}
+          color="blue"
+          {...rest}
+        />
+        <div className={classes.mainPanel} ref="mainPanel">
+          <Header
+            routes={dashboardRoutes}
+            handleDrawerToggle={this.handleDrawerToggle}
+            {...rest}
+          />
+          {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+          {this.getRoute() ? (
+            <div className={classes.content}>
+              <div className={classes.container}>{switchRoutes}</div>
             </div>
-        ) : (
-          <div>
-            <Sidebar
-              routes={dashboardRoutes}
-              logoText={"Creative Tim"}
-              logo={logo}
-              image={image}
-              handleDrawerToggle={this.handleDrawerToggle}
-              open={this.state.mobileOpen}
-              color="blue"
-              {...rest}
-            />
-            <div className={classes.mainPanel} ref="mainPanel">
-              <Header
-                updateUser={this.updateUser}
-                routes={dashboardRoutes}
-                handleDrawerToggle={this.handleDrawerToggle}
-                {...rest}
-              />
-              {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-              {this.getRoute() ? (
-                <div className={classes.content}>
-                  <div className={classes.container}>{switchRoutes}</div>
-                </div>
-              ) : (
-                <div className={classes.map}>{switchRoutes}</div>
-              )}
-              {this.getRoute() ? <Footer /> : null}
-            </div>
-          </div>
-        )};
+          ) : (
+            <div className={classes.map}>{switchRoutes}</div>
+          )}
+          {this.getRoute() ? <Footer /> : null}
+        </div>
       </div>
     );
   }

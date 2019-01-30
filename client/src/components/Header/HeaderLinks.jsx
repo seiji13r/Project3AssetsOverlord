@@ -18,10 +18,6 @@ import Search from "@material-ui/icons/Search";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
-// Logout Button
-import { Link } from "react-router-dom";
-import axios from "axios";
-
 import headerLinksStyle from "assets/jss/material-dashboard-react/components/headerLinksStyle.jsx";
 
 class HeaderLinks extends React.Component {
@@ -39,29 +35,6 @@ class HeaderLinks extends React.Component {
 
     this.setState({ open: false });
   };
-
-  logout = event => {
-    event.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log("logging out");
-    axios
-      .post("/auth/logout")
-      .then(response => {
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-        if (response.status === 200) {
-          this.props.updateUser({
-            loggedIn: false,
-            username: null,
-            redirectTo: null
-          });
-        }
-      })
-      .catch(error => {
-        // eslint-disable-next-line no-console
-        console.log("Logout error", error);
-      });
-  }
 
   render() {
     const { classes } = this.props;
@@ -189,12 +162,6 @@ class HeaderLinks extends React.Component {
             <p className={classes.linkText}>Profile</p>
           </Hidden>
         </Button>
-        <Link
-          to="/login"
-          onClick={this.logout}
-        >
-          Logout
-        </Link>
       </div>
     );
   }
