@@ -20,6 +20,9 @@ import Button from "components/CustomButtons/Button.jsx";
 
 import headerLinksStyle from "assets/jss/material-dashboard-react/components/headerLinksStyle.jsx";
 
+// New Imports
+import { Link } from "react-router-dom";
+
 class HeaderLinks extends React.Component {
   state = {
     open: false
@@ -162,6 +165,24 @@ class HeaderLinks extends React.Component {
             <p className={classes.linkText}>Profile</p>
           </Hidden>
         </Button>
+
+        <Link to={`/signup/`} activeClassName="active">
+          <Button color="primary" round>
+            SignUp
+          </Button>
+        </Link>
+
+        <Link to={`/login/`} activeClassName="active">
+          <Button color="primary" round>
+            LogIn
+          </Button>
+        </Link>
+
+        <Link to={`/logout/`} activeClassName="active">
+          <Button color="primary" round>
+            LogOut
+          </Button>
+        </Link>
       </div>
     );
   }

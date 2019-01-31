@@ -12,6 +12,9 @@ import DashboardPage from "views/Dashboard/Dashboard.jsx";
 import SensorsPage from "views/SensorsPage";
 import ProductsPage from "views/ProductsPage";
 import UsersPage from "views/UsersPage";
+// Auth Views
+import AuthLogIn from "views/AuthLogIn";
+import AuthSignUp from "views/AuthSignUp";
 
 import UserProfile from "views/UserProfile/UserProfile.jsx";
 import TableList from "views/TableList/TableList.jsx";
@@ -27,6 +30,20 @@ const dashboardRoutes = [
     navbarName: "Material Dashboard",
     icon: Dashboard,
     component: DashboardPage
+  },
+  {
+    path: "/login",
+    sidebarName: "LogIn",
+    navbarName: "LogIn",
+    icon: Person,
+    component: AuthLogIn
+  },
+  {
+    path: "/signup",
+    sidebarName: "SignUp",
+    navbarName: "SignUp",
+    icon: Person,
+    component: AuthSignUp
   },
   {
     path: "/sensors",
