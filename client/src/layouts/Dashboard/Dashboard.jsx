@@ -19,23 +19,31 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 
-const switchRoutes = (
-  <Switch>
-    {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect)
-        return <Redirect from={prop.path} to={prop.to} key={key} />;
-      return <Route path={prop.path} component={prop.component} key={key} />;
-    })}
-  </Switch>
-);
+// const switchRoutes = (
+//   <Switch>
+//     {this.state.allowedRoutes.map((prop, key) => {
+//       if (prop.redirect)
+//         return <Redirect from={prop.path} to={prop.to} key={key} />;
+//       return <Route path={prop.path} component={prop.component} key={key} appstate={this.state}/>;
+//     })}
+//   </Switch>
+// );
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mobileOpen: false
+      loggedIn: false,
+      mobileOpen: false,
+      allowedRoutes: []
     };
     this.resizeFunction = this.resizeFunction.bind(this);
+    // New Addition
+    this.updateAppState = this.updateAppState.bind(this);
+  }
+  // New Addition
+  updateAppState(Obj) {
+    this.setState(Obj);
   }
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
@@ -49,6 +57,22 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
+    // Define a Set of path  that don´t require Authorization
+    const noAuthPathsArr = ["/login", "/signup"]
+    // Filter the No Auth Required Routes from the dashboard Routes
+    const noAuthRoutes = dashboardRoutes.filter(element => {
+      return noAuthPathsArr.includes(element.path);
+    });
+    // Filter the No Auth Required Routes from the dashboard Routes
+    const authRoutes = dashboardRoutes.filter(element => {
+      return !noAuthPathsArr.includes(element.path);
+    });
+    // Control Which Routes / Pages are available upon LogIn
+    if(this.state.loggedIn) {
+      this.setState({allowedRoutes:authRoutes});
+    } else {
+      this.setState({allowedRoutes:noAuthRoutes});
+    }
     if (navigator.platform.indexOf("Win") > -1) {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
@@ -70,7 +94,7 @@ class App extends React.Component {
     return (
       <div className={classes.wrapper}>
         <Sidebar
-          routes={dashboardRoutes}
+          routes={this.state.allowedRoutes}
           logoText={"Creative Tim"}
           logo={logo}
           image={image}
@@ -81,19 +105,59 @@ class App extends React.Component {
         />
         <div className={classes.mainPanel} ref="mainPanel">
           <Header
-            routes={dashboardRoutes}
+            routes={this.state.allowedRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
             {...rest}
           />
           {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (
             <div className={classes.content}>
-              <div className={classes.container}>{switchRoutes}</div>
+              <div className={classes.container}>
+                {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
+                <Switch>
+                  {this.state.allowedRoutes.map((prop, key) => {
+                    if (prop.redirect)
+                      return <Redirect from={prop.path} to={prop.to} key={key} />;
+                    // return <Route path={prop.path} component={prop.component} key={key} appstate={this.state}/>;
+                    return <Route 
+                              path={prop.path}
+                              key={key} render={(props) => (
+                                <prop.component 
+                                  {...props}
+                                  appState={this.state}
+                                  updateAppState={this.updateAppState}
+                                />
+                              )}
+                            />;
+                    
+                  })}
+                </Switch>
+              </div>
             </div>
           ) : (
-            <div className={classes.map}>{switchRoutes}</div>
+            <div className={classes.map}>
+              {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
+              <Switch>
+                {this.state.allowedRoutes.map((prop, key) => {
+                  if (prop.redirect)
+                    return <Redirect from={prop.path} to={prop.to} key={key} />;
+                  // return <Route path={prop.path} component={prop.component} key={key} appstate={this.state}/>;
+                  return <Route 
+                            path={prop.path}
+                            key={key} render={(props) => (
+                              <prop.component 
+                                {...props}
+                                appState={this.state}
+                                updateAppState={this.updateAppState}
+                              />
+                            )}
+                          />;
+                  
+                })}
+              </Switch>
+            </div>
           )}
-          {this.getRoute() ? <Footer /> : null}
+          {/* {this.getRoute() ? <Footer /> : null} */}
         </div>
       </div>
     );
