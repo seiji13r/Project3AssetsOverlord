@@ -47,7 +47,7 @@ class AuthSignUp extends React.Component{
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log("Cliked");
+    console.log("Cliked Signup Submit");
   }
 
   render() {
