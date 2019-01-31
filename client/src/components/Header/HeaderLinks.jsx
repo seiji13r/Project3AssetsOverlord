@@ -166,23 +166,18 @@ class HeaderLinks extends React.Component {
           </Hidden>
         </Button>
 
-        <Link to={`/signup/`} activeClassName="active">
-          <Button color="primary" round>
-            SignUp
-          </Button>
-        </Link>
 
-        <Link to={`/login/`} activeClassName="active">
-          <Button color="primary" round>
-            LogIn
-          </Button>
-        </Link>
+        <Button color="primary" round component={Link} to="/signup">
+          SignUp
+        </Button>
 
-        <Link to={`/logout/`} activeClassName="active">
-          <Button color="primary" round>
-            LogOut
-          </Button>
-        </Link>
+        <Button color="primary" round component={Link} to="/login">
+          LogIn
+        </Button>
+
+        <Button color="primary" round component={Link} to="/logout">
+          LogOut
+        </Button>
       </div>
     );
   }

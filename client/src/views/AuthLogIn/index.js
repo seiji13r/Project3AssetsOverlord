@@ -55,7 +55,7 @@ function AuthLogIn(props) {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="display1">
           Log In
         </Typography>
         <form className={classes.form}>

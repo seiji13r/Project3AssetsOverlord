@@ -57,7 +57,7 @@ class AuthSignUp extends React.Component{
       <main className={classes.main}>
         <CssBaseline />
         <Paper className={classes.paper}>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="display1">
             Sign Up
           </Typography>
           <form className={classes.form}>
