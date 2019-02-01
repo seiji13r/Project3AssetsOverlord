@@ -1,23 +1,24 @@
 module.exports = function(sequelize, DataTypes) {
   var Product = sequelize.define("Product", {
-    title: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        len: [1]
-      }
     },
-    body: {
-      type: DataTypes.TEXT,
+    sku: {
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        len: [1]
-      }
     },
     category: {
       type: DataTypes.STRING,
-      defaultValue: "Personal"
-    }
+      allowNull: false
+    },
+    epc: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    created_at: DataTypes.DATE,
+    updated_at: DataTypes.DATE
+    
   });
   return Product;
 };
