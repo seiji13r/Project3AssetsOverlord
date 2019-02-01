@@ -40,6 +40,22 @@ const styles = {
 };
 
 class ProductsPage extends React.Component{
+  state={
+    products: [{
+      name: "producto1",
+      sku: "12234",
+      category: "category1",
+      epc: "234fril",
+      id: "1"    
+    },
+    {
+      name: "producto2",
+      sku: "12234",
+      category: "category1",
+      epc: "234fril",
+      id: "2"       
+    }]
+  }
   render () {
     const { classes } = this.props;
     return (
@@ -48,16 +64,14 @@ class ProductsPage extends React.Component{
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Product List</h4>
+
   
             </CardHeader>
             <CardBody>
               <Table
                 tableHeaderColor="primary"
-                tableHead={["Name", "Country", "City", "Salary"]}
-                tableData={[
-                  ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-  
-                ]}
+                tableHead={["Name", "SKU", "Category", "EPC", "Action"]}
+                tableData={this.state.products}
               />
             </CardBody>
           </Card>

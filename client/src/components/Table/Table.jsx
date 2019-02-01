@@ -35,10 +35,10 @@ function CustomTable({ ...props }) {
           {tableData.map((prop, key) => {
             return (
               <TableRow key={key}>
-                {prop.map((prop, key) => {
+                {Object.keys(prop).map(key => {
                   return (
                     <TableCell className={classes.tableCell} key={key}>
-                      {prop}
+                     {key === "id" ? <button>!</button> : prop[key]}
                     </TableCell>
                   );
                 })}
