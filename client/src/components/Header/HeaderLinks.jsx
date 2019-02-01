@@ -22,6 +22,7 @@ import headerLinksStyle from "assets/jss/material-dashboard-react/components/hea
 
 // New Imports
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 class HeaderLinks extends React.Component {
   state = {
@@ -39,12 +40,37 @@ class HeaderLinks extends React.Component {
     this.setState({ open: false });
   };
 
+  logout = event => {
+    event.preventDefault();
+    // eslint-disable-next-line no-console
+    console.log("logging out");
+    axios
+      .post("/auth/logout")
+      .then(response => {
+        // eslint-disable-next-line no-console
+        console.log(response.data);
+        if (response.status === 200) {
+          this.props.updateAppState({
+            loggedIn: false,
+            username: null,
+            redirectTo: null
+          });
+        }
+        console.log(this.props.appState);
+        this.props.updateRoutes();
+      })
+      .catch(error => {
+        // eslint-disable-next-line no-console
+        console.log("Logout error", error);
+      });
+  };
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
     return (
       <div>
-        <div className={classes.searchWrapper}>
+        {/* <div className={classes.searchWrapper}>
           <CustomInput
             formControlProps={{
               className: classes.margin + " " + classes.search
@@ -164,20 +190,16 @@ class HeaderLinks extends React.Component {
           <Hidden mdUp implementation="css">
             <p className={classes.linkText}>Profile</p>
           </Hidden>
-        </Button>
+        </Button> */}
 
-
-        <Button color="primary" round component={Link} to="/signup">
-          SignUp
-        </Button>
-
-        <Button color="primary" round component={Link} to="/login">
-          LogIn
-        </Button>
-
-        <Button color="primary" round component={Link} to="/logout">
+        {/* <Button color="primary" round onClick={this.logout}>
           LogOut
-        </Button>
+        </Button> */}
+        {this.props.appState && this.props.appState.loggedIn ? (
+          <Button color="primary" round onClick={this.logout}>
+            <span> LogOut </span>
+          </Button>
+        ) : null}
       </div>
     );
   }

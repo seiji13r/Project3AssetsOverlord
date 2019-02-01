@@ -13,6 +13,9 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 
+import { Redirect } from "react-router-dom";
+import axios from "axios";
+
 const styles = theme => ({
   main: {
     width: "auto",
@@ -45,45 +48,122 @@ const styles = theme => ({
   },
 });
 
-function AuthLogIn(props) {
-  const { classes } = props;
+class AuthLogIn extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: "",
+      messages: {},
+      redirectTo: null
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-  return (
-    <main className={classes.main}>
-      <CssBaseline />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="display1">
-          Log In
-        </Typography>
-        <form className={classes.form}>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input name="password" type="password" id="password" autoComplete="current-password" />
-          </FormControl>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
+    console.log('handleSubmit')
+
+    axios
+      .post('/auth/login', {
+        email: this.state.email,
+        password: this.state.password
+      })
+      .then(response => {
+        console.log('login response: ');
+        console.log(response);
+        if (response.status === 200) {
+          // update App.js state
+          this.props.updateAppState({
+            loggedIn: true,
+            user: response.data.username,
+            email: response.data.email
+          });
+          this.props.updateRoutes();
+          // update the state to redirect to home
+          this.setState({
+            messages: {},
+            redirectTo: "/"
+          });
+        }
+      })
+      .catch(error => {
+        console.log('login error: ');
+        console.log(error);
+        this.setState({
+          messages: {error: "Bad Credentials"}
+        });
+      });
+  }
+
+  renderRedirect = () => {
+    if (this.state.redirectTo) {
+      return <Redirect to={this.state.redirectTo} />;
+    }
+  };
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <main className={classes.main}>
+       {this.renderRedirect()}
+        <CssBaseline />
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="display1">
             Log In
-          </Button>
-        </form>
-      </Paper>
-    </main>
-  );
+          </Typography>
+          <form className={classes.form} onSubmit={this.handleSubmit}>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <Input
+                id="email"
+                name="email"
+                autoComplete="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+                autoFocus
+              />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <Input
+                name="password"
+                type="password"
+                id="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+                autoComplete="current-password"
+              />
+            </FormControl>
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Log In
+            </Button>
+          </form>
+        </Paper>
+      </main>
+    );
+  }
 }
 
 AuthLogIn.propTypes = {

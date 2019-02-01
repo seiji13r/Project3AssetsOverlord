@@ -19,9 +19,12 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 
+import axios from "axios";
+
+// The Following Piece of Code has been modified and written directly in Render.
 // const switchRoutes = (
 //   <Switch>
-//     {this.state.allowedRoutes.map((prop, key) => {
+//     {dashboardRoutes.map((prop, key) => {
 //       if (prop.redirect)
 //         return <Redirect from={prop.path} to={prop.to} key={key} />;
 //       return <Route path={prop.path} component={prop.component} key={key} appstate={this.state}/>;
@@ -39,24 +42,36 @@ class App extends React.Component {
     };
     this.resizeFunction = this.resizeFunction.bind(this);
     // New Addition
+    this.getUser = this.getUser.bind(this);
     this.updateAppState = this.updateAppState.bind(this);
+    this.updateRoutes = this.updateRoutes.bind(this);
   }
   // New Addition
   updateAppState(Obj) {
     this.setState(Obj);
   }
-  handleDrawerToggle = () => {
-    this.setState({ mobileOpen: !this.state.mobileOpen });
-  };
-  getRoute() {
-    return this.props.location.pathname !== "/maps";
+  getUser() {
+    axios.get("/auth/").then(response => {
+      console.log("Get user response: ");
+      console.log(response.data)
+      if (response.data.user) {
+        console.log('Get User: There is a user saved in the server session: ')
+
+        this.setState({
+          loggedIn: true,
+          username: response.data.user.username
+        });
+      } else {
+        console.log('Get user: no user');
+        this.setState({
+          loggedIn: false,
+          username: null
+        })
+      };
+      this.updateRoutes();
+    });
   }
-  resizeFunction() {
-    if (window.innerWidth >= 960) {
-      this.setState({ mobileOpen: false });
-    }
-  }
-  componentDidMount() {
+  updateRoutes() {
     // Define a Set of path  that don´t require Authorization
     const noAuthPathsArr = ["/login", "/signup"]
     // Filter the No Auth Required Routes from the dashboard Routes
@@ -73,6 +88,23 @@ class App extends React.Component {
     } else {
       this.setState({allowedRoutes:noAuthRoutes});
     }
+  }
+  // Existing Methods
+  handleDrawerToggle = () => {
+    this.setState({ mobileOpen: !this.state.mobileOpen });
+  };
+  getRoute() {
+    return this.props.location.pathname !== "/maps";
+  }
+  resizeFunction() {
+    if (window.innerWidth >= 960) {
+      this.setState({ mobileOpen: false });
+    }
+  }
+  componentDidMount() {
+    // Calling Custom Auth Methods
+    this.getUser();
+
     if (navigator.platform.indexOf("Win") > -1) {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
@@ -95,7 +127,7 @@ class App extends React.Component {
       <div className={classes.wrapper}>
         <Sidebar
           routes={this.state.allowedRoutes}
-          logoText={"Creative Tim"}
+          logoText={"Assets Overlord"}
           logo={logo}
           image={image}
           handleDrawerToggle={this.handleDrawerToggle}
@@ -105,6 +137,9 @@ class App extends React.Component {
         />
         <div className={classes.mainPanel} ref="mainPanel">
           <Header
+            updateAppState={this.updateAppState}
+            updateRoutes={this.updateRoutes}
+            appState={this.state}
             routes={this.state.allowedRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
             {...rest}
@@ -126,6 +161,7 @@ class App extends React.Component {
                                   {...props}
                                   appState={this.state}
                                   updateAppState={this.updateAppState}
+                                  updateRoutes={this.updateRoutes}
                                 />
                               )}
                             />;
@@ -149,6 +185,7 @@ class App extends React.Component {
                                 {...props}
                                 appState={this.state}
                                 updateAppState={this.updateAppState}
+                                updateRoutes={this.updateRoutes}
                               />
                             )}
                           />;
