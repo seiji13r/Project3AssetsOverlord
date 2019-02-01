@@ -6,42 +6,42 @@ const db = require("../models");
 // =============================================================
 module.exports = function(app) {
 
-  // GET route for getting all of the posts
-  app.get("/api/posts/", function(req, res) {
-    db.Post.findAll({})
-      .then(function(dbPost) {
-        res.json(dbPost);
+  // GET route for getting all of the products
+  app.get("/api/products/", function(req, res) {
+    db.Product.findAll({})
+      .then(function(dbProduct) {
+        res.json(dbProduct);
       });
   });
 
-  // Get route for returning posts of a specific category
-  app.get("/api/posts/category/:category", function(req, res) {
-    db.Post.findAll({
+  // Get route for returning products of a specific category
+  app.get("/api/products/category/:category", function(req, res) {
+    db.Poduct.findAll({
       where: {
         category: req.params.category
       }
     })
-      .then(function(dbPost) {
-        res.json(dbPost);
+      .then(function(dbProduct) {
+        res.json(dbProduct);
       });
   });
 
-  // Get route for retrieving a single post
-  app.get("/api/posts/:id", function(req, res) {
-    db.Post.findOne({
+  // Get route for retrieving a single product
+  app.get("/api/products/:id", function(req, res) {
+    db.Product.findOne({
       where: {
         id: req.params.id
       }
     })
-      .then(function(dbPost) {
-        res.json(dbPost);
+      .then(function(dbProduct) {
+        res.json(dbProduct);
       });
   });
 
-  // POST route for saving a new post
-  app.post("/api/posts/", function(req, res) {
+  // POST route for saving a new product
+  app.post("/api/products/", function(req, res) {
     // console.log(req.body);
-    db.Post.create({
+    db.Product.create({
       name: req.body.name,
       sku: req.body.sku,
       category: req.body.category,
@@ -49,26 +49,26 @@ module.exports = function(app) {
       created_at: req.body.created_at,
       updated_at: req.boyd.updated_at
     })
-      .then(function(dbPost) {
-        res.json(dbPost);
+      .then(function(dbProduct) {
+        res.json(dbProduct);
       });
   });
 
-  // DELETE route for deleting posts
-  app.delete("/api/posts/:id", function(req, res) {
-    db.Post.destroy({
+  // DELETE route for deleting products
+  app.delete("/api/products/:id", function(req, res) {
+    db.Product.destroy({
       where: {
         id: req.params.id
       }
     })
-      .then(function(dbPost) {
-        res.json(dbPost);
+      .then(function(dbProduct) {
+        res.json(dbProduct);
       });
   });
 
-  // PUT route for updating posts
-  app.put("/api/posts", function(req, res) {
-    db.Post.update({
+  // PUT route for updating products
+  app.put("/api/products", function(req, res) {
+    db.Product.update({
         name: req.body.name,
       sku: req.body.sku,
       category: req.body.category,
@@ -80,8 +80,8 @@ module.exports = function(app) {
           id: req.body.id
         }
       })
-      .then(function(dbPost) {
-        res.json(dbPost);
+      .then(function(dbProduct) {
+        res.json(dbProduct);
       });
   });
 };
