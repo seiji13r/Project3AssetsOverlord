@@ -8,6 +8,8 @@ import Table from "components/Table/Table.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
+import axios from "axios";
+
 
 const styles = {
   cardCategoryWhite: {
@@ -56,6 +58,19 @@ class ProductsPage extends React.Component{
       id: "2"       
     }]
   }
+
+  getProducts = () => {
+    axios.get("/api/products")
+     .then(response=> this.setState({
+       products : response.data
+     }))
+  }
+
+  componentDidMount(){
+    this.getProducts()
+  }
+  
+  
   render () {
     const { classes } = this.props;
     return (
