@@ -10,7 +10,7 @@ import TableCell from "@material-ui/core/TableCell";
 // core components
 import tableStyle from "assets/jss/material-dashboard-react/components/tableStyle.jsx";
 
-function CustomTable({ ...props }) {
+function ProductsTable({ ...props }) {
   const { classes, tableHead, tableData, tableHeaderColor } = props;
   return (
     <div className={classes.tableResponsive}>
@@ -35,13 +35,32 @@ function CustomTable({ ...props }) {
           {tableData.map((prop, key) => {
             return (
               <TableRow key={key}>
-                {Object.keys(prop).map(key => {
-                  return (
-                    <TableCell className={classes.tableCell} key={key}>
-                     {key === "id" ? <button>!</button> : prop[key]}
-                    </TableCell>
-                  );
-                })}
+                <TableCell className={classes.tableCell} key={key}>
+                  {prop.name}
+                </TableCell>
+                <TableCell className={classes.tableCell} key={key}>
+                  {prop.sku}
+                </TableCell>
+                <TableCell className={classes.tableCell} key={key}>
+                  {prop.category}
+                </TableCell>
+                <TableCell className={classes.tableCell} key={key}>
+                  {prop.epc}
+                </TableCell>
+                <TableCell className={classes.tableCell} key={key}>
+                  <button
+                    className="btn btn-success"
+                    onClick={() => props.onUpdateClick(prop.id)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="btn btn-success"
+                    onClick={() => props.onDeleteClick(prop.id)}
+                  >
+                    Delete
+                  </button>
+                </TableCell>
               </TableRow>
             );
           })}
@@ -51,11 +70,11 @@ function CustomTable({ ...props }) {
   );
 }
 
-CustomTable.defaultProps = {
+ProductsTable.defaultProps = {
   tableHeaderColor: "gray"
 };
 
-CustomTable.propTypes = {
+ProductsTable.propTypes = {
   classes: PropTypes.object.isRequired,
   tableHeaderColor: PropTypes.oneOf([
     "warning",
@@ -70,4 +89,4 @@ CustomTable.propTypes = {
   tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
 };
 
-export default withStyles(tableStyle)(CustomTable);
+export default withStyles(tableStyle)(ProductsTable);
