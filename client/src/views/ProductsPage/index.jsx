@@ -4,12 +4,11 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import Table from "components/Table/Table.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import axios from "axios";
-
+import ProductsTable from "../../components/Tables/ProductsTable";
 
 const styles = {
   cardCategoryWhite: {
@@ -41,63 +40,173 @@ const styles = {
   }
 };
 
-class ProductsPage extends React.Component{
-  state={
-    products: [{
-      name: "producto1",
-      sku: "12234",
-      category: "category1",
-      epc: "234fril",
-      id: "1"    
-    },
-    {
-      name: "producto2",
-      sku: "12234",
-      category: "category1",
-      epc: "234fril",
-      id: "2"       
-    }]
-  }
+class ProductsPage extends React.Component {
+  state = {
+    products: [],
+    name: "",
+    sku: "",
+    category: "",
+    epc: "",
+    id: undefined
+  };
 
   getProducts = () => {
-    axios.get("/api/products")
-     .then(response=> this.setState({
-       products : response.data
-     }))
+    axios.get("/api/products").then(response => {
+      let products = response.data.map(({ name, sku, category, epc, id }) => {
+        return {
+          id,
+          name,
+          sku,
+          category,
+          epc
+        };
+      });
+
+      this.setState({
+        products
+      });
+    });
+  };
+
+  componentDidMount() {
+    this.getProducts();
   }
 
-  componentDidMount(){
-    this.getProducts()
-  }
-  
-  
-  render () {
+  handleInputChange = event => {
+    const { name, value } = event.target;
+
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleUpdateClick = id => {
+    axios.get(`/api/products/${id}`).then(response => {
+      const { name, sku, category, epc, id } = response.data;
+
+      this.setState({
+        id,
+        name,
+        sku,
+        category,
+        epc
+      });
+    });
+  };
+
+  handleDeleteClick = id => {
+    axios.delete(`/api/products/${id}`).then(() => {
+      this.getProducts();
+    });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    if (this.state.id) {
+      this.handleUpdate();
+    } else {
+      this.handleCreate();
+    }
+  };
+
+  handleUpdate = () => {
+    axios
+      .put("/api/products", {
+        name: this.state.name,
+        sku: this.state.sku,
+        category: this.state.category,
+        epc: this.state.epc,
+        id: this.state.id
+      })
+      .then(() => {
+        this.getProducts();
+        this.setState({
+          name: "",
+          sku: "",
+          category: "",
+          epc: "",
+          id: undefined
+        });
+      });
+  };
+
+  handleCreate = () => {
+    axios
+      .post("/api/products", {
+        name: this.state.name,
+        sku: this.state.sku,
+        category: this.state.category,
+        epc: this.state.epc
+      })
+      .then(() => {
+        this.getProducts();
+        this.setState({
+          name: "",
+          sku: "",
+          category: "",
+          epc: "",
+          id: undefined
+        });
+      });
+  };
+
+  render() {
     const { classes } = this.props;
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
+          <form onSubmit={this.handleSubmit}>
+            <label>Name</label>
+            <input
+              className="form-control"
+              name="name"
+              value={this.state.name}
+              onChange={this.handleInputChange}
+            />
+            <label>SKU</label>
+            <input
+              className="form-control"
+              name="sku"
+              value={this.state.sku}
+              onChange={this.handleInputChange}
+            />
+            <label>Category</label>
+            <input
+              className="form-control"
+              name="category"
+              value={this.state.category}
+              onChange={this.handleInputChange}
+            />
+            <label>EPC</label>
+            <input
+              className="form-control"
+              name="epc"
+              value={this.state.epc}
+              onChange={this.handleInputChange}
+            />
+            <button type="submit">Save</button>
+          </form>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Product List</h4>
-
-  
             </CardHeader>
             <CardBody>
-              <Table
+              <ProductsTable
                 tableHeaderColor="primary"
                 tableHead={["Name", "SKU", "Category", "EPC", "Action"]}
                 tableData={this.state.products}
+                onUpdateClick={this.handleUpdateClick}
+                onDeleteClick={this.handleDeleteClick}
               />
             </CardBody>
           </Card>
         </GridItem>
-        
       </GridContainer>
     );
   }
 }
-
-
-
 
 export default withStyles(styles)(ProductsPage);
