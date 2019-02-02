@@ -18,7 +18,9 @@ const db = require("./models");
 
 // *********  MIDDLEWARE SET UP SECTION  *************
 // Set Up URL encoded to allow understanding of body's Data coming from Form POST
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 // Set Up URL encoded to allow understanding of body's Data coming from json POST
 app.use(express.json());
 // Set Up the public directory that will serve the static files under /.
@@ -57,7 +59,7 @@ if (process.env.NODE_ENV === "test") {
 }
 
 // Initialize the Server
-db.sequelize.sync(syncOptions).then(function() {
+db.sequelize.sync(syncOptions).then(function () {
   app.listen(PORT, () =>
     console.log(
       `Server Listening in Port: ${PORT}, http://localhost:${PORT} 🌎`
