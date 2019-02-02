@@ -16,10 +16,10 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(
     process.env["DB_DATABASE"],
     process.env["DB_USERNAME"],
-    process.env["DB_PASSWORD"],
-    {
+    process.env["DB_PASSWORD"], {
       host: process.env["DB_HOST"],
-      dialect: "mysql"
+      dialect: "mysql",
+      port: process.env["DB_PORT"] || 3306
     }
   );
 }

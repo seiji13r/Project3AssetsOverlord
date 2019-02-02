@@ -9,7 +9,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 // core components/views
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
-import SensorsPage from "views/SensorsPage";
+import ReadersPage from "views/ReadersPage";
 import ProductsPage from "views/ProductsPage";
 import UsersPage from "views/UsersPage";
 // Auth Views
@@ -46,11 +46,11 @@ const dashboardRoutes = [
     component: AuthSignUp
   },
   {
-    path: "/sensors",
-    sidebarName: "Sensors",
-    navbarName: "Sensors",
+    path: "/readers",
+    sidebarName: "Readers",
+    navbarName: "Readers",
     icon: Dashboard,
-    component: SensorsPage
+    component: ReadersPage
   },
   {
     path: "/products",
