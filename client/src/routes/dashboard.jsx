@@ -10,7 +10,7 @@ import Unarchive from "@material-ui/icons/Unarchive";
 // core components/views
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
 import SensorsPage from "views/SensorsPage";
-import ProductsPage from "views/ProductsPage";
+import ProductsPage from "views/ProductsPage/index.jsx";
 import UsersPage from "views/UsersPage";
 // Auth Views
 import AuthLogIn from "views/AuthLogIn";
