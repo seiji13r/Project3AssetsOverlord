@@ -6,7 +6,7 @@ const productRoutes = require("./apiProductRoutes");
 
 // API Routes
 router.use("/auth", authRoutes);
-router.use("/", readerRoutes);
+// router.use("/", readerRoutes);
 router.use("/", productRoutes);
 
 // If no API routes are hit, send the React app
