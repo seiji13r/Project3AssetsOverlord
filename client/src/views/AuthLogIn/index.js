@@ -55,6 +55,7 @@ class AuthLogIn extends React.Component {
       email: "",
       password: "",
       messages: {},
+      errorMsg: "",
       redirectTo: null
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -89,7 +90,7 @@ class AuthLogIn extends React.Component {
           this.props.updateRoutes();
           // update the state to redirect to home
           this.setState({
-            messages: {},
+            errorMsg: "Welcome!!",
             redirectTo: "/"
           });
         }
@@ -98,7 +99,7 @@ class AuthLogIn extends React.Component {
         console.log('login error: ');
         console.log(error);
         this.setState({
-          messages: {error: "Bad Credentials"}
+          errorMsg: "Bad Credentials, Try Again"
         });
       });
   }
@@ -114,7 +115,12 @@ class AuthLogIn extends React.Component {
 
     return (
       <main className={classes.main}>
-       {this.renderRedirect()}
+        {this.renderRedirect()}
+        {this.state.errorMsg ? (
+          <Paper className={classes.paper}>{this.state.errorMsg}</Paper>
+        ) : (
+          ""
+        )}
         <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
