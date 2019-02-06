@@ -73,14 +73,18 @@ class App extends React.Component {
   }
   updateRoutes() {
     // Define a Set of path  that don´t require Authorization
-    const noAuthPathsArr = ["/login", "/signup"]
+    const noAuthPathsArr = ["/login", "/signup", "/welcome"]
+    const noAuthAndAuthPathsArr = ["/welcome"]
     // Filter the No Auth Required Routes from the dashboard Routes
     const noAuthRoutes = dashboardRoutes.filter(element => {
       return noAuthPathsArr.includes(element.path);
     });
     // Filter the No Auth Required Routes from the dashboard Routes
     const authRoutes = dashboardRoutes.filter(element => {
-      return !noAuthPathsArr.includes(element.path);
+      return (
+        !noAuthPathsArr.includes(element.path) ||
+        noAuthAndAuthPathsArr.includes(element.path)
+      );
     });
     // Control Which Routes / Pages are available upon LogIn
     if(this.state.loggedIn) {
