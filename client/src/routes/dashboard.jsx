@@ -59,7 +59,7 @@ const dashboardRoutes = [
     navbarName: "Products",
     icon: Dashboard,
     component: ProductsPage
-  // },
+  },
   // {
   //   path: "/users",
   //   sidebarName: "Users",
