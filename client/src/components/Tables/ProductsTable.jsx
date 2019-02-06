@@ -49,13 +49,14 @@ function ProductsTable({ ...props }) {
                 </TableCell>
                 <TableCell className={classes.tableCell} key={key}>
                   <button
-                    className="btn btn-success"
+                    className="btn btn-small purple lighten-2"
                     onClick={() => props.onUpdateClick(prop.id)}
                   >
-                    Update
+                    Edit
                   </button>
+                  &nbsp;
                   <button
-                    className="btn btn-success"
+                    className="btn btn-small red lighten-2"
                     onClick={() => props.onDeleteClick(prop.id)}
                   >
                     Delete
