@@ -50,45 +50,56 @@ class AuthSignUp extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: '',
-      username: '',
-      password: '',
-      passwdconf: '',
+      email: "",
+      username: "",
+      password: "",
+      passwdconf: "",
+      errorMsg: "",
       redirectTo: null
-    }
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
-    })
+    });
   }
   handleSubmit(event) {
     console.log('sign-up handleSubmit, username: ')
-    console.log(this.state.username)
-    event.preventDefault()
+    event.preventDefault();
 
     //request to server to add a new username/password
     axios.post('/auth/signup', {
-      email: this.state.email,
-      username: this.state.username,
-      password: this.state.password,
-      passwdconf: this.state.passwdconf
-    })
+        email: this.state.email,
+        username: this.state.username,
+        password: this.state.password,
+        passwdconf: this.state.passwdconf
+      })
       .then(response => {
         console.log(response)
-        if (!response.data.errmsg) {
+        if (!response.data.error) {
           console.log('successful signup')
-          this.setState({ //redirect to login page
-            redirectTo: '/login'
-          })
+          this.setState({
+            redirectTo: "/login" //redirect to login page
+          });
         } else {
-          console.log('username already taken')
+          // if (response.data.error.includes("email")) {
+          //   console.log('Email Already Taken');
+          // } else if (response.data.error.includes("username")) {
+          //   console.log('Username Already Taken');
+          // }
+          this.setState({
+            errorMsg: response.data.error
+          });
         }
-      }).catch(error => {
-        console.log('signup error: ')
-        console.log(error)
+      })
+      .catch(error => {
+        console.log('signup error: ');
+        console.log(error);
+        this.setState({
+          errorMsg: error
+        });
       })
   }
 
@@ -104,6 +115,11 @@ class AuthSignUp extends React.Component {
     return (
       <main className={classes.main}>
         {this.renderRedirect()}
+        {this.state.errorMsg ? (
+          <Paper className={classes.paper}>{this.state.errorMsg}</Paper>
+        ) : (
+          ""
+        )}
         <CssBaseline />
         <Paper className={classes.paper}>
           <Typography component="h1" variant="display1">

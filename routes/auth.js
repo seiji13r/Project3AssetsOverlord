@@ -8,7 +8,7 @@ router.post(
   (req, res) => {
     console.log('user signup');
 
-    const { email, username, password } = req.body
+    const { email, username, password, passwdconf} = req.body
     // ADD VALIDATION
     db.User.findOne({where : { email: email }})
       .then((user) => {
@@ -26,6 +26,11 @@ router.post(
                 })
               }
               else {
+                if (password !== passwdconf) {
+                  res.json({
+                    error: `Passwords don't match, please verify`
+                })
+                }
                 db.User.create({
                   username: username,
                   password: password,
@@ -36,6 +41,7 @@ router.post(
                   })
                   .catch(err => {
                     console.log(err);
+                    res.status(422).json(err);
                   });
               }
             });
@@ -79,5 +85,28 @@ router.post('/logout', (req, res) => {
         res.send({ msg: 'No user to Log Out' })
     }
 })
+
+
+router.put(
+  '/user',
+  (req, res) => {
+    const { id, company, image_link, first_name, last_name} = req.body
+    // ADD VALIDATION
+    db.User.update(
+      {
+        company,
+        image_link,
+        first_name,
+        last_name
+      },
+      {
+        where: {
+          id: id
+        }
+      }
+    ).then(function(dbUser) {
+      res.json(dbUser);
+    });
+});
 
 module.exports = router

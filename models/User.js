@@ -11,6 +11,33 @@ module.exports = function(sequelize, DataTypes) {
     email: {
       type: DataTypes.STRING
     },
+    role: {
+      type: DataTypes.STRING
+    },
+    image_link: {
+      type: DataTypes.STRING
+    },
+    company: {
+      type: DataTypes.STRING
+    },
+    first_name: {
+      type: DataTypes.STRING
+    },
+    last_name: {
+      type: DataTypes.STRING
+    },
+    city: {
+      type: DataTypes.STRING
+    },
+    country: {
+      type: DataTypes.STRING
+    },
+    postal_code: {
+      type: DataTypes.STRING
+    },
+    about_me: {
+      type: DataTypes.STRING
+    },
   });
 
   // Define Schema Methods
