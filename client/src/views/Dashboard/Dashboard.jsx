@@ -48,13 +48,7 @@ class Dashboard extends React.Component {
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Daily Sales</h4>
-                <p className={classes.cardCategory}>
-                  <span className={classes.successText}>
-                    <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                  </span>{" "}
-                  increase in today sales.
-                </p>
+                <h4 className={classes.cardTitle}>Entries</h4>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
@@ -75,10 +69,7 @@ class Dashboard extends React.Component {
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Completed Tasks</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
+                <h4 className={classes.cardTitle}>Exits</h4>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
