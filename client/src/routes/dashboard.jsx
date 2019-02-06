@@ -23,8 +23,16 @@ import Typography from "views/Typography/Typography.jsx";
 import Icons from "views/Icons/Icons.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
+import LandingPage from "../views/LandingPage";
 
 const dashboardRoutes = [
+  {
+    path: "/welcome",
+    sidebarName: "Welcome",
+    navbarName: "Welcome",
+    icon: Dashboard,
+    component: LandingPage
+  },
   {
     path: "/dashboard",
     sidebarName: "Dashboard",
@@ -60,20 +68,20 @@ const dashboardRoutes = [
     icon: Dashboard,
     component: ProductsPage
   },
-  // {
-  //   path: "/users",
-  //   sidebarName: "Users",
-  //   navbarName: "Users",
-  //   icon: Person,
-  //   component: UsersPage
-  // },
-  // {
-  //   path: "/user",
-  //   sidebarName: "User Profile",
-  //   navbarName: "Profile",
-  //   icon: Person,
-  //   component: UserProfile
-  // },
+  {
+    path: "/users",
+    sidebarName: "Users",
+    navbarName: "Users",
+    icon: Person,
+    component: UsersPage
+  },
+  {
+    path: "/user",
+    sidebarName: "User Profile",
+    navbarName: "Profile",
+    icon: Person,
+    component: UserProfile
+  },
   // {
   //   path: "/table",
   //   sidebarName: "Table List",

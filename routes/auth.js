@@ -53,7 +53,7 @@ router.post(
   '/login',
   function (req, res, next) {
     console.log('routes/auth.js, login, req.body: ');
-    console.log(req.body)
+    // console.log(req.body)
     next()
   },
   passport.authenticate('local'),
@@ -69,7 +69,7 @@ router.post(
 
 router.get('/', (req, res, next) => {
   console.log('===== User!!======')
-  console.log(req.user)
+  // console.log(req.user)
   if (req.user) {
       res.json({ user: req.user })
   } else {
