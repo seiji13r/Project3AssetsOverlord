@@ -32,6 +32,9 @@ module.exports = function(sequelize, DataTypes) {
     country: {
       type: DataTypes.STRING
     },
+    postal_code: {
+      type: DataTypes.STRING
+    },
     about_me: {
       type: DataTypes.STRING
     },

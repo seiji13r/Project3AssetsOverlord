@@ -86,4 +86,27 @@ router.post('/logout', (req, res) => {
     }
 })
 
+
+router.put(
+  '/user',
+  (req, res) => {
+    const { id, company, image_link, first_name, last_name} = req.body
+    // ADD VALIDATION
+    db.User.update(
+      {
+        company,
+        image_link,
+        first_name,
+        last_name
+      },
+      {
+        where: {
+          id: id
+        }
+      }
+    ).then(function(dbUser) {
+      res.json(dbUser);
+    });
+});
+
 module.exports = router
