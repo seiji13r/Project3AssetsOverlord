@@ -1,7 +1,7 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputLabel from "@material-ui/core/InputLabel";
+// import InputLabel from "@material-ui/core/InputLabel";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -13,7 +13,10 @@ import CardAvatar from "components/Card/CardAvatar.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 
-import avatar from "assets/img/faces/marc.jpg";
+// import avatar from "assets/img/faces/marc.jpg";
+import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
 
 import axios from "axios";
 
@@ -66,14 +69,17 @@ class UserProfile extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state)
-    const { id, company, image_link, first_name, last_name } = this.state;
+    console.log(this.state);
+    const { id, company, image_link, first_name, last_name, city, country, about_me } = this.state;
     const user_info = {
       id,
       company,
       image_link,
       first_name,
-      last_name
+      last_name,
+      city,
+      country,
+      about_me
     };
     console.log("Click Handle Submit", user_info);
 
@@ -132,150 +138,138 @@ class UserProfile extends React.Component {
                 <CardBody>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={5}>
-                      <CustomInput
-                        labelText="Company"
-                        id="company-disabled"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          disabled: false,
-                          name: "company",
-                          // value: this.state.company,
-                          // onChange: this.handleInputChange
-                        }}
-                        value={this.state.company}
-                        onChange={this.handleInputChange}
-                      />
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="company">Company</InputLabel>
+                        <Input
+                          id="company"
+                          name="company"
+                          type="text"
+                          autoComplete="company"
+                          value={this.state.company}
+                          onChange={this.handleChange}
+                          autoFocus
+                        />
+                      </FormControl>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="Username"
-                        id="username"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          disabled: true,
-                          name: "username",
-                          value: this.state.username,
-                          onChange: this.handleInputChange
-                        }}
-                      />
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="username">Username</InputLabel>
+                        <Input
+                          id="username"
+                          name="username"
+                          type="text"
+                          autoComplete="username"
+                          value={this.state.username}
+                          onChange={this.handleChange}
+                          disabled
+                          autoFocus
+                        />
+                      </FormControl>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
-                        labelText="Email address"
-                        id="email-address"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          disabled: true,
-                          name: "email",
-                          value: this.state.email,
-                          onChange: this.handleInputChange
-                        }}
-                      />
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="email">Email</InputLabel>
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          autoComplete="email"
+                          value={this.state.email}
+                          onChange={this.handleChange}
+                          disabled
+                          autoFocus
+                        />
+                      </FormControl>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="First Name"
-                        id="first-name"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          disabled: false,
-                          name: "first_name",
-                          value: this.state.first_name,
-                          onChange: this.handleInputChange
-                        }}
-                      />
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="first_name">First Name</InputLabel>
+                        <Input
+                          id="first_name"
+                          name="first_name"
+                          type="text"
+                          autoComplete="first_name"
+                          value={this.state.first_name}
+                          onChange={this.handleChange}
+                          autoFocus
+                        />
+                      </FormControl>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Last Name"
-                        id="last-name"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          disabled: false,
-                          name: "last_name",
-                          value: this.state.last_name,
-                          onChange: this.handleInputChange
-                        }}
-                      />
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="last_name">Last Name</InputLabel>
+                        <Input
+                          id="last_name"
+                          name="last_name"
+                          type="text"
+                          autoComplete="last_name"
+                          value={this.state.last_name}
+                          onChange={this.handleChange}
+                          autoFocus
+                        />
+                      </FormControl>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
-                        labelText="City"
-                        id="city"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          disabled: false,
-                          name: "city",
-                          value: this.state.city,
-                          onChange: this.handleInputChange
-                        }}
-                      />
+                    <GridItem xs={12} sm={12} md={2}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="city">City</InputLabel>
+                        <Input
+                          id="city"
+                          name="city"
+                          type="text"
+                          autoComplete="city"
+                          value={this.state.city}
+                          onChange={this.handleChange}
+                          autoFocus
+                        />
+                      </FormControl>
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
-                        labelText="Country"
-                        id="country"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          disabled: false,
-                          name: "country",
-                          value: this.state.country,
-                          onChange: this.handleInputChange
-                        }}
-                      />
+                    <GridItem xs={12} sm={12} md={2}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="country">Country</InputLabel>
+                        <Input
+                          id="country"
+                          name="country"
+                          type="text"
+                          autoComplete="country"
+                          value={this.state.country}
+                          onChange={this.handleChange}
+                          autoFocus
+                        />
+                      </FormControl>
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
-                        labelText="Image Link"
-                        id="image-link"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          disabled: false,
-                          name: "image_link",
-                          value: this.state.image_link,
-                          onChange: this.handleInputChange
-                        }}
-                      />
+                    <GridItem xs={12} sm={12} md={8}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="image_link">Image Link</InputLabel>
+                        <Input
+                          id="image_link"
+                          name="image_link"
+                          type="text"
+                          autoComplete="image_link"
+                          value={this.state.image_link}
+                          onChange={this.handleChange}
+                          autoFocus
+                        />
+                      </FormControl>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={12}>
-                      <InputLabel style={{ color: "#AAAAAA" }}>About me</InputLabel>
-                      <CustomInput
-                        labelText={this.state.about_me}
-                        id="about-me"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          multiline: true,
-                          rows: 5,
-                          disabled: false,
-                          name: "about_me",
-                          value: this.state.about_me,
-                          onChange: this.handleInputChange
-                        }}
-                      />
+                      <InputLabel htmlFor="about_me" style={{ color: "#AAAAAA" }}>About me</InputLabel>
+                      <FormControl margin="normal" required fullWidth>
+                        <Input
+                          id="about_me"
+                          name="about_me"
+                          type="text"
+                          autoComplete="about_me"
+                          value={this.state.about_me}
+                          onChange={this.handleChange}
+                          autoFocus
+                        />
+                      </FormControl>
                     </GridItem>
                   </GridContainer>
                 </CardBody>
@@ -295,9 +289,6 @@ class UserProfile extends React.Component {
               <CardBody profile>
                 <h6 className={classes.cardCategory}>{this.state.first_name} {this.state.last_name}</h6>
                 <p className={classes.description}>{this.state.about_me}</p>
-                <Button color="primary" round>
-                  Follow
-                </Button>
               </CardBody>
             </Card>
           </GridItem>
