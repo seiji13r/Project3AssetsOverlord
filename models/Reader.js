@@ -1,5 +1,5 @@
-module.exports = function (sequelize, DataTypes) {
-  var Reader = sequelize.define("Reader", {
+module.exports = function(sequelize, DataTypes) {
+  const Reader = sequelize.define("Reader", {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -28,7 +28,7 @@ module.exports = function (sequelize, DataTypes) {
         len: [1]
       }
     },
-    antennas: {
+    antenna_port: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -58,7 +58,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     notes: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     }
   });
   return Reader;
