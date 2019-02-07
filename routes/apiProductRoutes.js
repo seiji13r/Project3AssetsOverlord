@@ -65,7 +65,7 @@ router.put("/api/products", function(req, res) {
       name: req.body.name,
       sku: req.body.sku,
       category: req.body.category,
-      upc: req.body.upc
+      epc: req.body.epc
     },
     {
       where: {

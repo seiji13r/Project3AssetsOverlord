@@ -1,24 +1,34 @@
 module.exports = function(sequelize, DataTypes) {
-  var Product = sequelize.define("Product", {
+  const Product = sequelize.define("Product", {
     name: {
-      type: DataTypes.STRING,
       allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        len: [1]
+      }
     },
     sku: {
-      type: DataTypes.STRING,
       allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        len: [1]
+      }
     },
     category: {
+      allowNull: false,
       type: DataTypes.STRING,
-      allowNull: false
+      validate: {
+        len: [1]
+      }
     },
     epc: {
+      allowNull: false,
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE
-    
+      validate: {
+        len: [1]
+      }
+    }
   });
+
   return Product;
 };
