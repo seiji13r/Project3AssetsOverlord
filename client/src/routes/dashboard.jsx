@@ -1,6 +1,11 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
+import BlurOn from "@material-ui/icons/BlurOn";
+import People from "@material-ui/icons/People";
+import SettingsInputAntenna from "@material-ui/icons/SettingsInputAntenna";
+import Home from "@material-ui/icons/Home";
+
 // import ContentPaste from "@material-ui/icons/ContentPaste";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
@@ -30,7 +35,7 @@ const dashboardRoutes = [
     path: "/welcome",
     sidebarName: "Welcome",
     navbarName: "Welcome",
-    icon: Dashboard,
+    icon: Home,
     component: LandingPage
   },
   {
@@ -58,26 +63,26 @@ const dashboardRoutes = [
     path: "/readers",
     sidebarName: "Readers",
     navbarName: "Readers",
-    icon: Dashboard,
+    icon: SettingsInputAntenna,
     component: ReadersPage
   },
   {
     path: "/products",
     sidebarName: "Products",
     navbarName: "Products",
-    icon: Dashboard,
+    icon: BlurOn,
     component: ProductsPage
   },
   {
     path: "/users",
     sidebarName: "Users",
     navbarName: "Users",
-    icon: Person,
+    icon: People,
     component: UsersPage
   },
   {
     path: "/user",
-    sidebarName: "User Profile",
+    sidebarName: "Profile",
     navbarName: "Profile",
     icon: Person,
     component: UserProfile
