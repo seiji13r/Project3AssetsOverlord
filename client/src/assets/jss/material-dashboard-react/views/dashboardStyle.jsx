@@ -1,4 +1,5 @@
 import { successColor } from "assets/jss/material-dashboard-react.jsx";
+import { blue } from "@material-ui/core/colors";
 
 const dashboardStyle = {
   successText: {
@@ -69,8 +70,8 @@ const dashboardStyle = {
     "& small": {
       color: "#777",
       fontWeight: "400",
-      lineHeight: "1"
-    }
+      lineHeight: "1",
+       }
   }
 };
 
