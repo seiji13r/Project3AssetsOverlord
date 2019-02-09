@@ -18,9 +18,11 @@ const db = require("./models");
 
 // *********  MIDDLEWARE SET UP SECTION  *************
 // Set Up URL encoded to allow understanding of body's Data coming from Form POST
-app.use(express.urlencoded({
-  extended: true
-}));
+app.use(
+  express.urlencoded({
+    extended: true
+  })
+);
 // Set Up URL encoded to allow understanding of body's Data coming from json POST
 app.use(express.json());
 // Set Up the public directory that will serve the static files under /.
@@ -32,7 +34,7 @@ app.use(
     store: new SequelizeStore({
       db: db.sequelize,
       checkExpirationInterval: 15 * 60 * 1000, // The interval at which to cleanup expired sessions in milliseconds.
-      expiration: 24 * 60 * 60 * 1000  // The maximum age (in milliseconds) of a valid session.
+      expiration: 24 * 60 * 60 * 1000 // The maximum age (in milliseconds) of a valid session.
     }), // <---------- Session Store
     secret: "shhh this is super super secret", // This is the secret used to sign the session ID cookie.
     resave: false,
@@ -53,7 +55,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes);
 
 var syncOptions = {
-  force: true
+  force: false
 };
 
 if (process.env.NODE_ENV === "test") {
@@ -61,7 +63,7 @@ if (process.env.NODE_ENV === "test") {
 }
 
 // Initialize the Server
-db.sequelize.sync(syncOptions).then(function () {
+db.sequelize.sync(syncOptions).then(function() {
   app.listen(PORT, () =>
     console.log(
       `Server Listening in Port: ${PORT}, http://localhost:${PORT} 🌎`
