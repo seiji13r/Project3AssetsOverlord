@@ -6,7 +6,8 @@ const db = require("../models");
 // MongoJS
 const mongojs = require("mongojs");
 // MongoDB Configuration
-const databaseUrl = process.env.MONGODB_URI || "mongodb://localhost/assets_overlords";
+const databaseUrl =
+  process.env.MONGODB_URI || "mongodb://localhost/assets_overlords";
 const collections = ["epc_events"];
 // Use mongojs to hook the database to the db variable
 const dbMongo = mongojs(databaseUrl, collections);
@@ -14,6 +15,20 @@ const dbMongo = mongojs(databaseUrl, collections);
 dbMongo.on("error", function(error) {
   console.log("Database Error:", error);
 });
+
+const dbMysql = require("../models");
+
+function upsert(values, condition) {
+  return dbMysql.Tracking.findOne({ where: condition }).then(function(obj) {
+    if (obj) {
+      // update
+      return obj.update(values);
+    } else {
+      // insert
+      return dbMysql.Tracking.create(values);
+    }
+  });
+}
 
 // Routes
 // =============================================================
@@ -23,8 +38,7 @@ router.get("/", (req, res) => {
   dbMongo.epc_events.find({}, (error, found) => {
     if (error) {
       console.log(error);
-    }
-    else {
+    } else {
       res.json(found);
     }
   });
@@ -36,9 +50,17 @@ router.post("/", (req, res) => {
   dbMongo.epc_events.insert(req.body, (error, found) => {
     if (error) {
       console.log(error);
-    }
-    else {
-      res.json(found);
+    } else {
+      if (req.body.length) {
+        req.body.forEach(element => {
+          upsert(element, { epc: element.epc });
+        });
+        res.json(found);
+      } else {
+        upsert(req.body, { epc: req.body.epc }).then(() => {
+          res.json(found);
+        });
+      }
     }
   });
 });
@@ -48,11 +70,10 @@ router.get("/delete", (req, res) => {
   dbMongo.epc_events.remove({}, (error, result) => {
     if (error) {
       console.log(error);
-    }
-    else {
+    } else {
       res.json(result);
     }
   });
 });
 
-module.exports = router
+module.exports = router;
