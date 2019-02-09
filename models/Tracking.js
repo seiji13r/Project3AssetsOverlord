@@ -1,23 +1,20 @@
 module.exports = function(sequelize, DataTypes) {
   var Tracking = sequelize.define("Tracking", {
-    title: {
+    antenna_port: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [1]
       }
     },
-    body: {
-      type: DataTypes.TEXT,
+    epc: {
       allowNull: false,
+      type: DataTypes.STRING,
       validate: {
         len: [1]
       }
     },
-    category: {
-      type: DataTypes.STRING,
-      defaultValue: "Personal"
-    }
+    trackedAt: DataTypes.DATE
   });
   return Tracking;
 };
