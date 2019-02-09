@@ -31,6 +31,7 @@ import NotificationsPage from "views/Notifications/Notifications.jsx";
 import LandingPage from "../views/LandingPage";
 
 const dashboardRoutes = [
+ 
   {
     path: "/welcome",
     sidebarName: "Welcome",
@@ -87,6 +88,7 @@ const dashboardRoutes = [
     icon: Person,
     component: UserProfile
   },
+  { redirect: true, path: "/", to: "/welcome", navbarName: "Redirect" }
   // {
   //   path: "/table",
   //   sidebarName: "Table List",
@@ -122,7 +124,7 @@ const dashboardRoutes = [
   //   icon: Notifications,
   //   component: NotificationsPage
   // },
-  { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
+
 ];
 
 export default dashboardRoutes;

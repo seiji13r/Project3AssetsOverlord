@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes);
 
 var syncOptions = {
-  force: false
+  force: true
 };
 
 if (process.env.NODE_ENV === "test") {
