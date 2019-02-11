@@ -5,7 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
+// import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
@@ -17,6 +17,8 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
+
+import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
 
 import axios from "axios";
 
@@ -55,6 +57,7 @@ class UserProfile extends React.Component {
       country: "",
       postal_code: "",
       about_me: "",
+      updateMsg: null,
       redirectTo: null
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -87,6 +90,9 @@ class UserProfile extends React.Component {
       .put("/auth/user", user_info)
       .then(response => {
         console.log("Auth User PUT response", response);
+        this.setState({
+          updateMsg: "Profile Successfully Updated"
+        });
       })
       .catch(error => {
         console.log(error);
@@ -283,7 +289,14 @@ class UserProfile extends React.Component {
             <Card profile>
               <CardAvatar profile>
                 <a href="#pablo" onClick={e => e.preventDefault()}>
-                  <img src={this.state.image_link} alt="..." />
+                  {this.state.image_link.includes("http") ? (
+                    <img src={this.state.image_link} alt="..." />
+                  ) : (
+                    <img
+                      src="https://i1.wp.com/www.royalsmushicafe.dk/wp-content/uploads/2016/02/Profile-Placeholder.jpg"
+                      alt="..."
+                    />
+                  )}
                 </a>
               </CardAvatar>
               <CardBody profile>
@@ -291,6 +304,11 @@ class UserProfile extends React.Component {
                 <p className={classes.description}>{this.state.about_me}</p>
               </CardBody>
             </Card>
+            {this.state.updateMsg ? (
+              <SnackbarContent message={this.state.updateMsg} color="success"/>
+            ) : (
+              ""
+            )}
           </GridItem>
         </GridContainer>
       </div>
