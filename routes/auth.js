@@ -121,4 +121,13 @@ router.put(
     });
   });
 
+router.get('/users', (req, res, next) => {
+  db.User.findAll({
+    attributes: ["email", "username", "first_name", "last_name", "company", "country", "city"]
+  })
+    .then(users => res.json(users))
+    .catch(error => res.json(error));
+})
+
+
 module.exports = router
