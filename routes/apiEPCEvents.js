@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 // Sequelize Models
-const db = require("../models");
+// const db = require("../models");
 // MongoJS
 const mongojs = require("mongojs");
 // MongoDB Configuration
@@ -35,7 +35,7 @@ function upsert(values, condition) {
 // All the jsons stored in Mongo will be retrieved
 router.get("/", (req, res) => {
   // Query: In our database, go to the animals collection, then "find" everything
-  dbMongo.epc_events.find({}, (error, found) => {
+  dbMongo.epc_events.find().sort({_id:-1}, (error, found) => {
     if (error) {
       console.log(error);
     } else {
@@ -66,11 +66,44 @@ router.post("/", (req, res) => {
 });
 
 router.get("/delete", (req, res) => {
-  // Query: In our database, go to the animals collection, then "find" everything
   dbMongo.epc_events.remove({}, (error, result) => {
     if (error) {
       console.log(error);
     } else {
+      res.json(result);
+    }
+  });
+});
+
+
+router.delete("/", (req, res) => {
+
+  dbMongo.epc_events.remove({}, (error, result) => {
+    if (error) {
+      console.log(error);
+    } else {
+
+      dbMysql.Tracking.destroy({
+        where: {},
+        truncate: true
+      })
+      .then(res => {console.log(res)})
+      .catch(error => {console.log(error)})
+      
+      dbMysql.Product.destroy({
+        where: {},
+        truncate: true
+      })
+      .then(res => {console.log(res)})
+      .catch(error => {console.log(error)})
+      
+      dbMysql.Reader.destroy({
+        where: {},
+        truncate: true
+      })
+      .then(res => {console.log(res)})
+      .catch(error => {console.log(error)})
+
       res.json(result);
     }
   });
