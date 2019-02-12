@@ -289,7 +289,8 @@ class UserProfile extends React.Component {
             <Card profile>
               <CardAvatar profile>
                 <a href="#pablo" onClick={e => e.preventDefault()}>
-                  {this.state.image_link.includes("http") ? (
+                  {this.state.image_link &&
+                  this.state.image_link.includes("http") ? (
                     <img src={this.state.image_link} alt="..." />
                   ) : (
                     <img
