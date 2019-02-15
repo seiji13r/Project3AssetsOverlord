@@ -16,14 +16,22 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 
-import { dailySalesChart, completedTasksChart } from "variables/charts.jsx";
+// import { dailySalesChart, completedTasksChart } from "variables/charts.jsx";
+import { animation, options } from "variables/charts.jsx";
+import API from "../../utils/api";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
   state = {
-    value: 0
+    value: 0,
+    labels: [],
+    series: {
+      reader1: [],
+      reader2: []
+    }
   };
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -31,6 +39,36 @@ class Dashboard extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+
+  randomDataSets = () => {
+    const reader1 = [];
+    const reader2 = [];
+
+    this.state.labels.forEach(() => {
+      reader1.push(Math.floor(Math.random() * 100));
+      reader2.push(Math.floor(Math.random() * 100));
+    });
+
+    this.setState({
+      series: { reader1: [reader1], reader2: [reader2] }
+    });
+  };
+
+  componentDidMount() {
+    //this.swapDataSets();
+    API.getCategories().then(response => {
+      const labels = response.data.map(item => item.category);
+      this.setState(
+        {
+          labels
+        },
+        () => {
+          setInterval(this.randomDataSets, 2000);
+        }
+      );
+    });
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -41,10 +79,13 @@ class Dashboard extends React.Component {
               <CardHeader color="success">
                 <ChartistGraph
                   className="ct-chart"
-                  data={dailySalesChart.data}
-                  type="Line"
-                  options={dailySalesChart.options}
-                  listener={dailySalesChart.animation}
+                  data={{
+                    series: this.state.series.reader1,
+                    labels: this.state.labels
+                  }}
+                  type="Bar"
+                  options={options}
+                  listener={animation}
                 />
               </CardHeader>
               <CardBody>
@@ -62,10 +103,13 @@ class Dashboard extends React.Component {
               <CardHeader color="danger">
                 <ChartistGraph
                   className="ct-chart"
-                  data={completedTasksChart.data}
-                  type="Line"
-                  options={completedTasksChart.options}
-                  listener={completedTasksChart.animation}
+                  data={{
+                    series: this.state.series.reader2,
+                    labels: this.state.labels
+                  }}
+                  type="Bar"
+                  options={options}
+                  listener={animation}
                 />
               </CardHeader>
               <CardBody>
