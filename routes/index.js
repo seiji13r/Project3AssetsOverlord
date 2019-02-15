@@ -4,11 +4,13 @@ const authRoutes = require("./auth");
 const epcEventsRoutes = require("./apiEPCEvents");
 const productRoutes = require("./apiProductRoutes");
 const readerRoutes = require("./apiReaderRoutes");
+const apiTrackingRoutes = require("./apiTrackingRoutes");
 
 // API Routes
 router.use("/auth", authRoutes);
 router.use("/", productRoutes);
 router.use("/", readerRoutes);
+router.use("/", apiTrackingRoutes);
 router.use("/epc-events", epcEventsRoutes);
 
 // If no API routes are hit, send the React app

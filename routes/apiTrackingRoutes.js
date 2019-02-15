@@ -1,84 +1,64 @@
-// // *********************************************************************************
-// // api-routes.js - this file offers a set of routes for displaying and saving data to the db
-// // *********************************************************************************
+const express = require("express");
+const router = express.Router();
+const db = require("../models");
 
-// // Dependencies
-// // =============================================================
+// GET route for getting all of the readers
+router.get("/api/tracking/", function(req, res) {
 
-// // Requiring our Todo model
-// var db = require("../models");
+  const queryEtriesAndExits = [
+    "SELECT ",
+    "P.epc,",
+    "R.antenna_port,",
+    "P.name,",
+    "P.category,",
+    "R.name,",
+    "R.location",
+    "FROM project3_db.Trackings AS T INNER JOIN	project3_db.Products AS P ON T.epc = P.epc INNER JOIN	project3_db.Readers AS R ON T.antenna_port = R.antenna_port;"
+  ].join("\n")
 
-// // Routes
-// // =============================================================
-// module.exports = function(app) {
+  const queryCategories =[ 
+    "SELECT RT.antenna_port, count(RT.category) as count, RT.category", 
+    "FROM",
+    "(SELECT ",
+    "P.epc,",
+    "R.antenna_port,",
+    "P.name AS PName,",
+    "P.category,",
+    "R.name,",
+    "R.location",
+    "FROM project3_db.Trackings AS T INNER JOIN	project3_db.Products AS P ON T.epc = P.epc INNER JOIN	project3_db.Readers AS R ON T.antenna_port = R.antenna_port",
+    "ORDER BY antenna_port ASC, P.category ASC) AS RT",
+    "GROUP BY RT.antenna_port, RT.category ",
+    "ORDER BY RT.antenna_port ASC;"
+    ].join("\n")
 
-//   // GET route for getting all of the posts
-//   app.get("/api/posts/", function(req, res) {
-//     db.Post.findAll({})
-//       .then(function(dbPost) {
-//         res.json(dbPost);
-//       });
-//   });
+  db.sequelize.query(queryEtriesAndExits)
+    .then(result1 => {
+      const infoTables = result1[0]
+      db.sequelize.query(queryCategories)
+      .then(result2 => {
+        const summary = result2[0]
+        res.json({
+          infoTables,
+          summary
+        })
+      })
+      .catch(error => console.log(error));
+    })
+    .catch(error => console.log(error));
+  
+});
 
-//   // Get route for returning posts of a specific category
-//   app.get("/api/posts/category/:category", function(req, res) {
-//     db.Post.findAll({
-//       where: {
-//         category: req.params.category
-//       }
-//     })
-//       .then(function(dbPost) {
-//         res.json(dbPost);
-//       });
-//   });
+// SELECT * FROM project3_db.Trackings AS T INNER JOIN	project3_db.Products AS P ON T.epc = P.epc
 
-//   // Get route for retrieving a single post
-//   app.get("/api/posts/:id", function(req, res) {
-//     db.Post.findOne({
-//       where: {
-//         id: req.params.id
-//       }
-//     })
-//       .then(function(dbPost) {
-//         res.json(dbPost);
-//       });
-//   });
+// SELECT 
+// P.epc,
+// R.antenna_port,
+// P.name,
+// P.category,
+// R.name,
+// R.location
+// FROM project3_db.Trackings AS T INNER JOIN	project3_db.Products AS P ON T.epc = P.epc INNER JOIN	project3_db.Readers AS R ON T.antenna_port = R.antenna_port;
 
-//   // POST route for saving a new post
-//   app.post("/api/posts", function(req, res) {
-//     console.log(req.body);
-//     db.Post.create({
-//       title: req.body.title,
-//       body: req.body.body,
-//       category: req.body.category
-//     })
-//       .then(function(dbPost) {
-//         res.json(dbPost);
-//       });
-//   });
 
-//   // DELETE route for deleting posts
-//   app.delete("/api/posts/:id", function(req, res) {
-//     db.Post.destroy({
-//       where: {
-//         id: req.params.id
-//       }
-//     })
-//       .then(function(dbPost) {
-//         res.json(dbPost);
-//       });
-//   });
-
-//   // PUT route for updating posts
-//   app.put("/api/posts", function(req, res) {
-//     db.Post.update(req.body,
-//       {
-//         where: {
-//           id: req.body.id
-//         }
-//       })
-//       .then(function(dbPost) {
-//         res.json(dbPost);
-//       });
-//   });
-// };
+module.exports = router;
