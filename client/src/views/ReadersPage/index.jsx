@@ -1,14 +1,23 @@
 import React from "react";
+import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
+import Add from "@material-ui/icons/Add";
+import Button from "components/CustomButtons/Button.jsx";
 import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-import axios from "axios";
+import CardFooter from "components/Card/CardFooter.jsx";
+import CardHeader from "components/Card/CardHeader.jsx";
+import GridContainer from "components/Grid/GridContainer.jsx";
+import GridItem from "components/Grid/GridItem.jsx";
+import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import PlayArrow from "@material-ui/icons/PlayArrow";
 import ReadersTable from "../../components/Tables/ReadersTable";
+
+import axios from "axios";
 
 const styles = {
   cardCategoryWhite: {
@@ -240,7 +249,7 @@ class ReadersPage extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const labelClass = this.state.id ? "active" : "";
+
     return (
       <GridContainer>
         {this.state.form_action !== "" ? (
@@ -253,159 +262,154 @@ class ReadersPage extends React.Component {
                   </h4>
                 </CardHeader>
                 <CardBody>
-                  <div className="row">
-                    <div className="input-field col s6">
-                      <input
-                        id="reader_name"
-                        type="text"
-                        name="name"
-                        className="validate"
-                        onChange={this.handleInputChange}
-                        value={this.state.name}
-                        required
-                      />
-                      <label htmlFor="reader_name" className={labelClass}>
-                        Name
-                      </label>
-                    </div>
-                    <div className="input-field col s6">
-                      <input
-                        id="reader_mac"
-                        type="text"
-                        name="mac"
-                        className="validate"
-                        onChange={this.handleInputChange}
-                        value={this.state.mac}
-                        required
-                      />
-                      <label htmlFor="reader_mac" className={labelClass}>
-                        MAC Address
-                      </label>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="input-field col s6">
-                      <input
-                        id="reader_ip"
-                        type="text"
-                        name="ip"
-                        className="validate"
-                        onChange={this.handleInputChange}
-                        value={this.state.ip}
-                        required
-                      />
-                      <label htmlFor="reader_ip" className={labelClass}>
-                        IP Address
-                      </label>
-                    </div>
-                    <div className="input-field col s6">
-                      <input
-                        id="reader_firmware"
-                        type="text"
-                        name="firmware"
-                        className="validate"
-                        onChange={this.handleInputChange}
-                        value={this.state.firmware}
-                      />
-                      <label htmlFor="reader_firmware" className={labelClass}>
-                        Firmware
-                      </label>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="input-field col s6">
-                      <input
-                        id="reader_antenna"
-                        type="text"
-                        name="antenna_port"
-                        className="validate"
-                        onChange={this.handleInputChange}
-                        value={this.state.antenna_port}
-                        required
-                      />
-                      <label htmlFor="antenna_port" className={labelClass}>
-                        Antenna Port
-                      </label>
-                    </div>
-                    <div className="input-field col s6">
-                      <input
-                        id="reader_brand"
-                        type="text"
-                        name="brand"
-                        className="validate"
-                        onChange={this.handleInputChange}
-                        value={this.state.brand}
-                      />
-                      <label htmlFor="reader_brand" className={labelClass}>
-                        Brand
-                      </label>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="input-field col s6">
-                      <input
-                        id="reader_model"
-                        type="text"
-                        name="model"
-                        className="validate"
-                        onChange={this.handleInputChange}
-                        value={this.state.model}
-                        required
-                      />
-                      <label htmlFor="reader_model" className={labelClass}>
-                        Model
-                      </label>
-                    </div>
-                    <div className="input-field col s6">
-                      <input
-                        id="reader_location"
-                        type="text"
-                        name="location"
-                        className="validate"
-                        onChange={this.handleInputChange}
-                        value={this.state.location}
-                      />
-                      <label htmlFor="reader_location" className={labelClass}>
-                        Location
-                      </label>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="input-field col s12">
-                      <input
-                        id="reader_notes"
-                        type="text"
-                        name="notes"
-                        className="validate"
-                        onChange={this.handleInputChange}
-                        value={this.state.notes}
-                        required
-                      />
-                      <label htmlFor="reader_notes" className={labelClass}>
-                        Notes
-                      </label>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col">
-                      <button
-                        type="submit"
-                        className="btn waves-effect waves-light"
-                      >
-                        Save
-                        <i className="material-icons right">send</i>
-                      </button>
-                      &nbsp;
-                      <button
-                        type="button"
-                        className="btn waves-effect waves-light blue-grey lighten-5 black-text"
-                        onClick={this.handleCancelClick}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="reader_name">Name</InputLabel>
+                        <Input
+                          id="reader_name"
+                          type="text"
+                          name="name"
+                          className="validate"
+                          onChange={this.handleInputChange}
+                          value={this.state.name}
+                          required
+                        />
+                      </FormControl>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="reader_mac">
+                          MAC Address
+                        </InputLabel>
+                        <Input
+                          id="reader_mac"
+                          type="text"
+                          name="mac"
+                          className="validate"
+                          onChange={this.handleInputChange}
+                          value={this.state.mac}
+                          required
+                        />
+                      </FormControl>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="reader_ip">IP Address</InputLabel>
+                        <Input
+                          id="reader_ip"
+                          type="text"
+                          name="ip"
+                          className="validate"
+                          onChange={this.handleInputChange}
+                          value={this.state.ip}
+                          required
+                        />
+                      </FormControl>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="reader_firmware">
+                          Firmware
+                        </InputLabel>
+                        <Input
+                          id="reader_firmware"
+                          type="text"
+                          name="firmware"
+                          className="validate"
+                          onChange={this.handleInputChange}
+                          value={this.state.firmware}
+                          required
+                        />
+                      </FormControl>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="reader_antenna">
+                          Antenna Port
+                        </InputLabel>
+                        <Input
+                          id="reader_antenna"
+                          type="text"
+                          name="antenna_port"
+                          className="validate"
+                          onChange={this.handleInputChange}
+                          value={this.state.antenna_port}
+                          required
+                        />
+                      </FormControl>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="reader_brand">Brand</InputLabel>
+                        <Input
+                          id="reader_brand"
+                          type="text"
+                          name="brand"
+                          className="validate"
+                          onChange={this.handleInputChange}
+                          value={this.state.brand}
+                          required
+                        />
+                      </FormControl>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="reader_model">Model</InputLabel>
+                        <Input
+                          id="reader_model"
+                          type="text"
+                          name="model"
+                          className="validate"
+                          onChange={this.handleInputChange}
+                          value={this.state.model}
+                          required
+                        />
+                      </FormControl>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="reader_location">
+                          Location
+                        </InputLabel>
+                        <Input
+                          id="reader_location"
+                          type="text"
+                          name="location"
+                          className="validate"
+                          onChange={this.handleInputChange}
+                          value={this.state.location}
+                          required
+                        />
+                      </FormControl>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="reader_notes">Notes</InputLabel>
+                        <Input
+                          id="reader_notes"
+                          type="text"
+                          name="notes"
+                          className="validate"
+                          onChange={this.handleInputChange}
+                          value={this.state.notes}
+                          required
+                        />
+                      </FormControl>
+                    </GridItem>
+                  </GridContainer>
                 </CardBody>
+                <CardFooter>
+                  <p>
+                    <Button type="submit" color="success">
+                      <PlayArrow />
+                      Save
+                    </Button>
+                    <Button type="button" onClick={this.handleCancelClick}>
+                      Cancel
+                    </Button>
+                  </p>
+                </CardFooter>
               </Card>
             </form>
           </GridItem>
@@ -417,14 +421,14 @@ class ReadersPage extends React.Component {
               </CardHeader>
               <CardBody>
                 <p className="right-align">
-                  <button
+                  <Button
                     type="button"
-                    className="btn waves-effect purple"
                     onClick={this.handleAddClick}
+                    color="primary"
                   >
-                    Add a reader
-                    <i className="material-icons right">add</i>
-                  </button>
+                    <Add />
+                    Add a product
+                  </Button>
                 </p>
                 <ReadersTable
                   tableHeaderColor="primary"
@@ -451,5 +455,9 @@ class ReadersPage extends React.Component {
     );
   }
 }
+
+ReadersPage.propTypes = {
+  classes: PropTypes.object
+};
 
 export default withStyles(styles)(ReadersPage);
