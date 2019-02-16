@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Button from "components/CustomButtons/Button.jsx";
+import Delete from "@material-ui/icons/Delete";
+import Edit from "@material-ui/icons/Edit";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
@@ -48,19 +51,22 @@ function ProductsTable({ ...props }) {
                   {prop.epc}
                 </TableCell>
                 <TableCell className={classes.tableCell} key={key}>
-                  <button
-                    className="btn btn-small purple lighten-2"
+                  <Button
+                    color="info"
                     onClick={() => props.onUpdateClick(prop.id)}
+                    size="sm"
                   >
+                    <Edit />
                     Edit
-                  </button>
-                  &nbsp;
-                  <button
-                    className="btn btn-small red lighten-2"
+                  </Button>
+                  <Button
+                    color="danger"
                     onClick={() => props.onDeleteClick(prop.id)}
+                    size="sm"
                   >
+                    <Delete />
                     Delete
-                  </button>
+                  </Button>
                 </TableCell>
               </TableRow>
             );
@@ -87,7 +93,9 @@ ProductsTable.propTypes = {
     "gray"
   ]),
   tableHead: PropTypes.arrayOf(PropTypes.string),
-  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+  onDeleteClick: PropTypes.func,
+  onUpdateClick: PropTypes.func
 };
 
 export default withStyles(tableStyle)(ProductsTable);

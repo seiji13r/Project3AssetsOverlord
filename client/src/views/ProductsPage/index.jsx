@@ -1,13 +1,18 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
+import PropTypes from "prop-types";
+import axios from "axios";
+
+import Add from "@material-ui/icons/Add";
+import Button from "components/CustomButtons/Button.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-import axios from "axios";
-import ProductsTable from "../../components/Tables/ProductsTable";
+import GridContainer from "components/Grid/GridContainer.jsx";
+import GridItem from "components/Grid/GridItem.jsx";
 import ProductForm from "../../components/Forms/ProductForm";
+import ProductsTable from "../../components/Tables/ProductsTable";
+
+import withStyles from "@material-ui/core/styles/withStyles";
 import styles from "./styles";
 
 class ProductsPage extends React.Component {
@@ -92,14 +97,14 @@ class ProductsPage extends React.Component {
               </CardHeader>
               <CardBody>
                 <p className="right-align">
-                  <button
+                  <Button
                     type="button"
-                    className="btn waves-effect purple"
                     onClick={this.handleAddClick}
+                    color="primary"
                   >
+                    <Add />
                     Add a product
-                    <i className="material-icons right">add</i>
-                  </button>
+                  </Button>
                 </p>
                 <ProductsTable
                   tableHeaderColor="primary"
@@ -116,5 +121,9 @@ class ProductsPage extends React.Component {
     );
   }
 }
+
+ProductsPage.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 export default withStyles(styles)(ProductsPage);
