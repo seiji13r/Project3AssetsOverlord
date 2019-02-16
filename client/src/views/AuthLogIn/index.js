@@ -4,8 +4,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -25,27 +23,28 @@ const styles = theme => ({
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
       width: 400,
       marginLeft: "auto",
-      marginRight: "auto",
-    },
+      marginRight: "auto"
+    }
   },
   paper: {
     marginTop: theme.spacing.unit * 8,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
+      .spacing.unit * 3}px`
   },
   avatar: {
     margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing.unit
   },
   submit: {
-    marginTop: theme.spacing.unit * 3,
-  },
+    marginTop: theme.spacing.unit * 3
+  }
 });
 
 class AuthLogIn extends React.Component {
@@ -69,17 +68,14 @@ class AuthLogIn extends React.Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault()
-    console.log('handleSubmit')
+    event.preventDefault();
 
     axios
-      .post('/auth/login', {
+      .post("/auth/login", {
         email: this.state.email,
         password: this.state.password
       })
       .then(response => {
-        console.log('login response: ');
-        console.log(response);
         if (response.status === 200) {
           // update App.js state
           this.props.updateAppState({
@@ -95,9 +91,7 @@ class AuthLogIn extends React.Component {
           });
         }
       })
-      .catch(error => {
-        console.log('login error: ');
-        console.log(error);
+      .catch(() => {
         this.setState({
           errorMsg: "Bad Credentials, Try Again"
         });
@@ -152,10 +146,6 @@ class AuthLogIn extends React.Component {
                 autoComplete="current-password"
               />
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -174,6 +164,8 @@ class AuthLogIn extends React.Component {
 
 AuthLogIn.propTypes = {
   classes: PropTypes.object.isRequired,
+  updateAppState: PropTypes.func,
+  updateRoutes: PropTypes.func
 };
 
 export default withStyles(styles)(AuthLogIn);

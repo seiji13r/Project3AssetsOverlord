@@ -1,8 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Button from "components/CustomButtons/Button.jsx";
 import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
+import CardFooter from "components/Card/CardFooter.jsx";
+import CardHeader from "components/Card/CardHeader.jsx";
+import FormControl from "@material-ui/core/FormControl";
+import GridContainer from "components/Grid/GridContainer.jsx";
+import GridItem from "components/Grid/GridItem.jsx";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import PlayArrow from "@material-ui/icons/PlayArrow";
 import axios from "axios";
 
 class ProductForm extends Component {
@@ -97,7 +105,6 @@ class ProductForm extends Component {
 
   render() {
     const { classes } = this.props;
-    const labelClass = this.state.id ? "active" : "";
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -106,82 +113,76 @@ class ProductForm extends Component {
             <h4 className={classes.cardTitleWhite}>{this.state.cardTitle}</h4>
           </CardHeader>
           <CardBody>
-            <div className="row">
-              <div className="input-field col s6">
-                <input
-                  id="product_name"
-                  type="text"
-                  name="name"
-                  className="validate"
-                  onChange={this.handleInputChange}
-                  value={this.state.name}
-                  required
-                />
-                <label htmlFor="product_name" className={labelClass}>
-                  Name
-                </label>
-              </div>
-              <div className="input-field col s6">
-                <input
-                  id="product_sku"
-                  type="text"
-                  name="sku"
-                  className="validate"
-                  onChange={this.handleInputChange}
-                  value={this.state.sku}
-                  required
-                />
-                <label htmlFor="product_sku" className={labelClass}>
-                  SKU
-                </label>
-              </div>
-            </div>
-            <div className="row">
-              <div className="input-field col s6">
-                <input
-                  id="product_category"
-                  type="text"
-                  name="category"
-                  className="validate"
-                  onChange={this.handleInputChange}
-                  value={this.state.category}
-                  required
-                />
-                <label htmlFor="product_category" className={labelClass}>
-                  Category
-                </label>
-              </div>
-              <div className="input-field col s6">
-                <input
-                  id="product_epc"
-                  type="text"
-                  name="epc"
-                  className="validate"
-                  onChange={this.handleInputChange}
-                  value={this.state.epc}
-                />
-                <label htmlFor="product_epc" className={labelClass}>
-                  EPC
-                </label>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <button type="submit" className="btn waves-effect waves-light">
-                  Save
-                  <i className="material-icons right">send</i>
-                </button>
-                &nbsp;
-                <button
-                  type="button"
-                  className="btn waves-effect waves-light blue-grey lighten-5 black-text"
-                  onClick={this.handleCancelClick}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={5}>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="product_name">Name</InputLabel>
+                  <Input
+                    id="product_name"
+                    type="text"
+                    name="name"
+                    className="validate"
+                    onChange={this.handleInputChange}
+                    value={this.state.name}
+                    required
+                  />
+                </FormControl>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={5}>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="product_sku">SKU</InputLabel>
+                  <Input
+                    id="product_sku"
+                    type="text"
+                    name="sku"
+                    className="validate"
+                    onChange={this.handleInputChange}
+                    value={this.state.sku}
+                    required
+                  />
+                </FormControl>
+              </GridItem>
+
+              <GridItem xs={12} sm={12} md={5}>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="product_category">Category</InputLabel>
+                  <Input
+                    id="product_category"
+                    type="text"
+                    name="category"
+                    className="validate"
+                    onChange={this.handleInputChange}
+                    value={this.state.category}
+                    required
+                  />
+                </FormControl>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={5}>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="product_epc">EPC</InputLabel>
+                  <Input
+                    id="product_epc"
+                    type="text"
+                    name="epc"
+                    className="validate"
+                    onChange={this.handleInputChange}
+                    value={this.state.epc}
+                  />
+                </FormControl>
+              </GridItem>
+            </GridContainer>
           </CardBody>
+          <CardFooter>
+            <p>
+              <Button type="submit" color="success">
+                <PlayArrow />
+                Save
+              </Button>
+              <Button type="button" onClick={this.handleCancelClick}>
+                Cancel
+              </Button>
+            </p>
+          </CardFooter>
         </Card>
       </form>
     );
