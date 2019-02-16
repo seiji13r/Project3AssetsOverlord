@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const Sequelize = require("sequelize");
 const db = require("../models");
 
 // Routes
@@ -8,6 +9,14 @@ const db = require("../models");
 // GET route for getting all of the products
 router.get("/api/products/", function(req, res) {
   db.Product.findAll({}).then(function(dbProduct) {
+    res.json(dbProduct);
+  });
+});
+
+router.get("/api/products/categories", function(req, res) {
+  db.Product.findAll({
+    attributes: [[Sequelize.literal("DISTINCT `category`"), "category"]]
+  }).then(function(dbProduct) {
     res.json(dbProduct);
   });
 });
