@@ -294,7 +294,7 @@ class UserProfile extends React.Component {
                     <img src={this.state.image_link} alt="..." />
                   ) : (
                     <img
-                      src="https://i1.wp.com/www.royalsmushicafe.dk/wp-content/uploads/2016/02/Profile-Placeholder.jpg"
+                      src="/300x300.png"
                       alt="..."
                     />
                   )}
